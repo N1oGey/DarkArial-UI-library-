@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "DarkArialUi library"
 gui.Parent = player:WaitForChild("PlayerGui")
@@ -65,7 +66,7 @@ function UI:CreateWindow(cfg)
 	local Tabs = {}
 
 	local Wind = Instance.new("Frame", gui)
-	Wind.Size = UDim2.new(0, 536, 0, 280)
+	Wind.Size = UDim2.new(0, 536, 0, 320)
 	Wind.Position = UDim2.new(0, 192, 0, 22)
 	Wind.BackgroundColor3 = Color3.fromRGB(35,35,35)
 	Wind.BorderSizePixel = 0
@@ -84,8 +85,8 @@ function UI:CreateWindow(cfg)
 	Title.BorderSizePixel = 0
 	Instance.new("UICorner", Title).CornerRadius = UDim.new(0,5)
 
-	local padding = Instance.new("UIPadding", Title)
-	padding.PaddingLeft = UDim.new(0,7)
+	local pad = Instance.new("UIPadding", Title)
+	pad.PaddingLeft = UDim.new(0,7)
 
 	local Close = Instance.new("TextButton", Title)
 	Close.Size = UDim2.new(0,24,0,28)
@@ -97,7 +98,7 @@ function UI:CreateWindow(cfg)
 	Close.TextSize = 24
 
 	local TabsFrame = Instance.new("ScrollingFrame", Wind)
-	TabsFrame.Size = UDim2.new(0,108,0,232)
+	TabsFrame.Size = UDim2.new(0,108,0,272)
 	TabsFrame.Position = UDim2.new(0,6,0,40)
 	TabsFrame.BackgroundColor3 = Color3.fromRGB(55,55,55)
 	TabsFrame.ScrollBarThickness = 0
@@ -145,7 +146,7 @@ function UI:CreateWindow(cfg)
 		updateCanvas(TabsFrame)
 
 		local Page = Instance.new("ScrollingFrame", Wind)
-		Page.Size = UDim2.new(0,410,0,232)
+		Page.Size = UDim2.new(0,410,0,272)
 		Page.Position = UDim2.new(0,120,0,40)
 		Page.BackgroundColor3 = Color3.fromRGB(55,55,55)
 		Page.ScrollBarThickness = 0
@@ -166,21 +167,19 @@ function UI:CreateWindow(cfg)
 			local btn = Instance.new("TextButton", Page)
 			btn.Size = UDim2.new(0,398,0,38)
 			btn.Position = UDim2.new(0.5, -199, 0, offsetY)
-			btn.Text = cfg.Name or "Button"
+			btn.Text = cfg.Name
 			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
 			btn.Font = Enum.Font.SourceSansBold
 			btn.TextSize = 18
 			btn.BorderSizePixel = 0
-			Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
+			Instance.new("UICorner", btn)
 
 			offsetY += 44
 			updateCanvas(Page)
 
 			btn.MouseButton1Click:Connect(function()
-				if cfg.Callback then
-					cfg.Callback()
-				end
+				if cfg.Callback then cfg.Callback() end
 			end)
 		end
 
@@ -188,9 +187,9 @@ function UI:CreateWindow(cfg)
 			local lbl = Instance.new("TextLabel", Page)
 			lbl.Size = UDim2.new(0,398,0,34)
 			lbl.Position = UDim2.new(0.5, -199, 0, offsetY)
-			lbl.Text = cfg.Text or "Label"
+			lbl.Text = cfg.Text
 			lbl.BackgroundTransparency = 1
-			lbl.TextColor3 = Color3.fromRGB(177,177,177)
+			lbl.TextColor3 = Color3.fromRGB(200,200,200)
 			lbl.Font = Enum.Font.SourceSansBold
 			lbl.TextSize = 18
 			lbl.TextXAlignment = Enum.TextXAlignment.Left
@@ -203,23 +202,118 @@ function UI:CreateWindow(cfg)
 			local box = Instance.new("TextBox", Page)
 			box.Size = UDim2.new(0,398,0,40)
 			box.Position = UDim2.new(0.5, -199, 0, offsetY)
-			box.Text = ""
-			box.PlaceholderText = "Enter here..."
+
 			box.BackgroundColor3 = Color3.fromRGB(116,116,116)
-			box.TextColor3 = Color3.fromRGB(204,204,204)
+			box.TextColor3 = Color3.fromRGB(255,255,255)
 			box.Font = Enum.Font.SourceSansBold
 			box.TextSize = 18
-			box.ClearTextOnFocus = false
-			box.BorderSizePixel = 0
-			Instance.new("UICorner", box).CornerRadius = UDim.new(0,5)
 
-			local pad = Instance.new("UIPadding", box)
-			pad.PaddingLeft = UDim.new(0,5)
+			box.TextWrapped = true
+			box.TextXAlignment = Enum.TextXAlignment.Left
+			box.TextYAlignment = Enum.TextYAlignment.Center
+			box.Text = ""
+			box.PlaceholderText = cfg.Name or "Enter here..."
+
+			box.BorderSizePixel = 0
+
+			local corner = Instance.new("UICorner", box)
+			corner.CornerRadius = UDim.new(0,5)
+
+			local pad2 = Instance.new("UIPadding", box)
+			pad2.PaddingLeft = UDim.new(0,6)
 
 			offsetY += 46
 			updateCanvas(Page)
 
 			return box
+		end
+
+		function Tab:AddToggle(cfg)
+			local state = false
+
+			local btn = Instance.new("TextButton", Page)
+			btn.Size = UDim2.new(0,398,0,38)
+			btn.Position = UDim2.new(0.5, -199, 0, offsetY)
+			btn.Text = cfg.Name .. " : OFF"
+			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
+			btn.TextColor3 = Color3.fromRGB(255,255,255)
+			btn.Font = Enum.Font.SourceSansBold
+			btn.TextSize = 18
+			btn.BorderSizePixel = 0
+			Instance.new("UICorner", btn)
+
+			offsetY += 44
+			updateCanvas(Page)
+
+			btn.MouseButton1Click:Connect(function()
+				state = not state
+				btn.Text = cfg.Name .. " : " .. (state and "ON" or "OFF")
+				if cfg.Callback then cfg.Callback(state) end
+			end)
+		end
+
+		function Tab:AddSlider(cfg)
+			local value = cfg.Min or 0
+
+			local frame = Instance.new("Frame", Page)
+			frame.Size = UDim2.new(0,398,0,50)
+			frame.Position = UDim2.new(0.5, -199, 0, offsetY)
+			frame.BackgroundColor3 = Color3.fromRGB(70,70,70)
+			frame.BorderSizePixel = 0
+			Instance.new("UICorner", frame)
+
+			local label = Instance.new("TextLabel", frame)
+			label.Size = UDim2.new(1,0,0,20)
+			label.BackgroundTransparency = 1
+			label.Text = cfg.Name .. ": " .. value
+			label.TextColor3 = Color3.fromRGB(255,255,255)
+			label.Font = Enum.Font.SourceSansBold
+			label.TextSize = 18
+
+			local bar = Instance.new("Frame", frame)
+			bar.Size = UDim2.new(1,-10,0,6)
+			bar.Position = UDim2.new(0,5,1,-12)
+			bar.BackgroundColor3 = Color3.fromRGB(100,100,100)
+			Instance.new("UICorner", bar)
+
+			local fill = Instance.new("Frame", bar)
+			fill.Size = UDim2.new(0,0,1,0)
+			fill.BackgroundColor3 = Color3.fromRGB(255,255,255)
+			Instance.new("UICorner", fill)
+
+			offsetY += 56
+			updateCanvas(Page)
+
+			local dragging = false
+
+			bar.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					dragging = true
+				end
+			end)
+
+			bar.InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					dragging = false
+				end
+			end)
+
+			bar.InputChanged:Connect(function(input)
+				if not dragging then return end
+
+				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+					local pos = (input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X
+					pos = math.clamp(pos, 0, 1)
+
+					fill.Size = UDim2.new(pos,0,1,0)
+
+					value = math.floor((cfg.Min or 0) + ((cfg.Max or 100) - (cfg.Min or 0)) * pos)
+
+					label.Text = cfg.Name .. ": " .. value
+
+					if cfg.Callback then cfg.Callback(value) end
+				end
+			end)
 		end
 
 		Tab.Page = Page
