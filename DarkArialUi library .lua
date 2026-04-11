@@ -47,13 +47,26 @@ local function makeDraggable(obj)
 	end)
 end
 
+local function updateCanvas(frame)
+	local maxY = 0
+	for _,v in pairs(frame:GetChildren()) do
+		if v:IsA("GuiObject") then
+			local bottom = v.Position.Y.Offset + v.Size.Y.Offset
+			if bottom > maxY then
+				maxY = bottom
+			end
+		end
+	end
+	frame.CanvasSize = UDim2.new(0,0,0,maxY + 6)
+end
+
 function UI:CreateWindow(cfg)
 	local Window = {}
 	local Tabs = {}
 
 	local Wind = Instance.new("Frame", gui)
 	Wind.Size = UDim2.new(0, 536, 0, 280)
-	Wind.Position = UDim2.new(0, 200, 0, 100)
+	Wind.Position = UDim2.new(0, 192, 0, 22)
 	Wind.BackgroundColor3 = Color3.fromRGB(35,35,35)
 	Wind.BorderSizePixel = 0
 	Instance.new("UICorner", Wind).CornerRadius = UDim.new(0,5)
@@ -61,7 +74,7 @@ function UI:CreateWindow(cfg)
 	makeDraggable(Wind)
 
 	local Title = Instance.new("TextLabel", Wind)
-	Title.Size = UDim2.new(1,0,0,34)
+	Title.Size = UDim2.new(0,536,0,34)
 	Title.BackgroundColor3 = Color3.fromRGB(55,55,55)
 	Title.TextColor3 = Color3.fromRGB(255,255,255)
 	Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -76,7 +89,7 @@ function UI:CreateWindow(cfg)
 
 	local Close = Instance.new("TextButton", Title)
 	Close.Size = UDim2.new(0,24,0,28)
-	Close.Position = UDim2.new(1,-30,0,3)
+	Close.Position = UDim2.new(0,498,0,4)
 	Close.Text = "X"
 	Close.BackgroundTransparency = 1
 	Close.TextColor3 = Color3.fromRGB(255,255,255)
@@ -89,17 +102,11 @@ function UI:CreateWindow(cfg)
 	TabsFrame.BackgroundColor3 = Color3.fromRGB(55,55,55)
 	TabsFrame.ScrollBarThickness = 0
 	TabsFrame.BorderSizePixel = 0
-	TabsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-	TabsFrame.CanvasSize = UDim2.new(0,0,0,0)
 	Instance.new("UICorner", TabsFrame).CornerRadius = UDim.new(0,5)
-
-	local TabsLayout = Instance.new("UIListLayout", TabsFrame)
-	TabsLayout.Padding = UDim.new(0,6)
-	TabsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 	local Open = Instance.new("TextButton", gui)
 	Open.Size = UDim2.new(0,52,0,42)
-	Open.Position = UDim2.new(0,30,0,20)
+	Open.Position = UDim2.new(0,32,0,16)
 	Open.Text = "P"
 	Open.BackgroundColor3 = Color3.fromRGB(55,55,55)
 	Open.TextColor3 = Color3.fromRGB(255,255,255)
@@ -122,11 +129,11 @@ function UI:CreateWindow(cfg)
 
 	function Window:AddTab(tabCfg)
 		local Tab = {}
+		local index = #Tabs
 
 		local Button = Instance.new("TextButton", TabsFrame)
 		Button.Size = UDim2.new(0,90,0,36)
-		Button.AnchorPoint = Vector2.new(0.5,0)
-		Button.Position = UDim2.new(0.5,0,0,0)
+		Button.Position = UDim2.new(0,8,0,index*42 + 6)
 		Button.Text = tabCfg.TabName or "Tab"
 		Button.BackgroundColor3 = Color3.fromRGB(133,133,133)
 		Button.TextColor3 = Color3.fromRGB(255,255,255)
@@ -135,20 +142,18 @@ function UI:CreateWindow(cfg)
 		Button.BorderSizePixel = 0
 		Instance.new("UICorner", Button).CornerRadius = UDim.new(0,5)
 
+		updateCanvas(TabsFrame)
+
 		local Page = Instance.new("ScrollingFrame", Wind)
 		Page.Size = UDim2.new(0,410,0,232)
 		Page.Position = UDim2.new(0,120,0,40)
 		Page.BackgroundColor3 = Color3.fromRGB(55,55,55)
 		Page.ScrollBarThickness = 0
 		Page.BorderSizePixel = 0
-		Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
-		Page.CanvasSize = UDim2.new(0,0,0,0)
 		Page.Visible = false
 		Instance.new("UICorner", Page).CornerRadius = UDim.new(0,5)
 
-		local Layout = Instance.new("UIListLayout", Page)
-		Layout.Padding = UDim.new(0,6)
-		Layout.SortOrder = Enum.SortOrder.LayoutOrder
+		local offsetY = 6
 
 		Button.MouseButton1Click:Connect(function()
 			for _,v in pairs(Tabs) do
@@ -160,8 +165,7 @@ function UI:CreateWindow(cfg)
 		function Tab:AddButton(cfg)
 			local btn = Instance.new("TextButton", Page)
 			btn.Size = UDim2.new(0,398,0,38)
-			btn.AnchorPoint = Vector2.new(0.5,0)
-			btn.Position = UDim2.new(0.5,0,0,0)
+			btn.Position = UDim2.new(0,6,0,offsetY)
 			btn.Text = cfg.Name or "Button"
 			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -169,6 +173,9 @@ function UI:CreateWindow(cfg)
 			btn.TextSize = 18
 			btn.BorderSizePixel = 0
 			Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
+
+			offsetY += 44
+			updateCanvas(Page)
 
 			btn.MouseButton1Click:Connect(function()
 				if cfg.Callback then
@@ -180,21 +187,22 @@ function UI:CreateWindow(cfg)
 		function Tab:AddLabel(cfg)
 			local lbl = Instance.new("TextLabel", Page)
 			lbl.Size = UDim2.new(0,398,0,34)
-			lbl.AnchorPoint = Vector2.new(0.5,0)
-			lbl.Position = UDim2.new(0.5,0,0,0)
+			lbl.Position = UDim2.new(0,6,0,offsetY)
 			lbl.Text = cfg.Text or "Label"
 			lbl.BackgroundTransparency = 1
 			lbl.TextColor3 = Color3.fromRGB(177,177,177)
 			lbl.Font = Enum.Font.SourceSansBold
 			lbl.TextSize = 18
 			lbl.TextXAlignment = Enum.TextXAlignment.Left
+
+			offsetY += 38
+			updateCanvas(Page)
 		end
 
 		function Tab:AddBox(cfg)
 			local box = Instance.new("TextBox", Page)
 			box.Size = UDim2.new(0,398,0,40)
-			box.AnchorPoint = Vector2.new(0.5,0)
-			box.Position = UDim2.new(0.5,0,0,0)
+			box.Position = UDim2.new(0,6,0,offsetY)
 			box.Text = ""
 			box.PlaceholderText = "Enter here..."
 			box.BackgroundColor3 = Color3.fromRGB(116,116,116)
@@ -207,6 +215,9 @@ function UI:CreateWindow(cfg)
 
 			local pad = Instance.new("UIPadding", box)
 			pad.PaddingLeft = UDim.new(0,5)
+
+			offsetY += 46
+			updateCanvas(Page)
 
 			return box
 		end
