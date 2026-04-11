@@ -90,7 +90,13 @@ function UI:CreateWindow(cfg)
 	TabsFrame.BackgroundColor3 = Color3.fromRGB(55,55,55)
 	TabsFrame.ScrollBarThickness = 0
 	TabsFrame.BorderSizePixel = 0
+	TabsFrame.CanvasSize = UDim2.new(0,0,0,0)
+	TabsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 	Instance.new("UICorner", TabsFrame).CornerRadius = UDim.new(0,5)
+
+	local TabsLayout = Instance.new("UIListLayout", TabsFrame)
+	TabsLayout.Padding = UDim.new(0,6)
+	TabsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 	local Open = Instance.new("TextButton", gui)
 	Open.Size = UDim2.new(0,52,0,42)
@@ -118,11 +124,9 @@ function UI:CreateWindow(cfg)
 
 	function Window:AddTab(tabCfg)
 		local Tab = {}
-		local index = #Tabs + 1
 
 		local Button = Instance.new("TextButton", TabsFrame)
-		Button.Size = UDim2.new(0,90,0,36)
-		Button.Position = UDim2.new(0,8,0,(index-1)*42 + 6)
+		Button.Size = UDim2.new(1,-16,0,36)
 		Button.Text = tabCfg.TabName or "Tab"
 		Button.BackgroundColor3 = Color3.fromRGB(133,133,133)
 		Button.TextColor3 = Color3.fromRGB(255,255,255)
@@ -137,10 +141,14 @@ function UI:CreateWindow(cfg)
 		Page.BackgroundColor3 = Color3.fromRGB(55,55,55)
 		Page.ScrollBarThickness = 0
 		Page.BorderSizePixel = 0
+		Page.CanvasSize = UDim2.new(0,0,0,0)
+		Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
 		Page.Visible = false
 		Instance.new("UICorner", Page).CornerRadius = UDim.new(0,5)
 
-		local layoutY = 6
+		local Layout = Instance.new("UIListLayout", Page)
+		Layout.Padding = UDim.new(0,6)
+		Layout.SortOrder = Enum.SortOrder.LayoutOrder
 
 		Button.MouseButton1Click:Connect(function()
 			for _,v in pairs(Tabs) do
@@ -151,8 +159,7 @@ function UI:CreateWindow(cfg)
 
 		function Tab:AddButton(cfg)
 			local btn = Instance.new("TextButton", Page)
-			btn.Size = UDim2.new(0,398,0,38)
-			btn.Position = UDim2.new(0,6,0,layoutY)
+			btn.Size = UDim2.new(1,-12,0,38)
 			btn.Text = cfg.Name or "Button"
 			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -160,8 +167,6 @@ function UI:CreateWindow(cfg)
 			btn.TextSize = 18
 			btn.BorderSizePixel = 0
 			Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
-
-			layoutY = layoutY + 44
 
 			btn.MouseButton1Click:Connect(function()
 				if cfg.Callback then
@@ -172,22 +177,18 @@ function UI:CreateWindow(cfg)
 
 		function Tab:AddLabel(cfg)
 			local lbl = Instance.new("TextLabel", Page)
-			lbl.Size = UDim2.new(0,398,0,34)
-			lbl.Position = UDim2.new(0,6,0,layoutY)
+			lbl.Size = UDim2.new(1,-12,0,34)
 			lbl.Text = cfg.Text or "Label"
 			lbl.BackgroundTransparency = 1
 			lbl.TextColor3 = Color3.fromRGB(177,177,177)
 			lbl.Font = Enum.Font.SourceSansBold
 			lbl.TextSize = 18
 			lbl.TextXAlignment = Enum.TextXAlignment.Left
-
-			layoutY = layoutY + 38
 		end
 
 		function Tab:AddBox(cfg)
 			local box = Instance.new("TextBox", Page)
-			box.Size = UDim2.new(0,398,0,40)
-			box.Position = UDim2.new(0,6,0,layoutY)
+			box.Size = UDim2.new(1,-12,0,40)
 			box.Text = ""
 			box.PlaceholderText = "Enter here..."
 			box.BackgroundColor3 = Color3.fromRGB(116,116,116)
@@ -201,15 +202,13 @@ function UI:CreateWindow(cfg)
 			local pad = Instance.new("UIPadding", box)
 			pad.PaddingLeft = UDim.new(0,5)
 
-			layoutY = layoutY + 46
-
 			return box
 		end
 
 		Tab.Page = Page
 		table.insert(Tabs, Tab)
 
-		if index == 1 then
+		if #Tabs == 1 then
 			Page.Visible = true
 		end
 
