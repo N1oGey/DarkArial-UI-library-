@@ -95,7 +95,6 @@ function UI:CreateWindow(cfg)
 
 	local TabsLayout = Instance.new("UIListLayout", TabsFrame)
 	TabsLayout.Padding = UDim.new(0,6)
-	TabsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	TabsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 	local Open = Instance.new("TextButton", gui)
@@ -125,7 +124,9 @@ function UI:CreateWindow(cfg)
 		local Tab = {}
 
 		local Button = Instance.new("TextButton", TabsFrame)
-		Button.Size = UDim2.new(1,-16,0,36)
+		Button.Size = UDim2.new(0,90,0,36)
+		Button.AnchorPoint = Vector2.new(0.5,0)
+		Button.Position = UDim2.new(0.5,0,0,0)
 		Button.Text = tabCfg.TabName or "Tab"
 		Button.BackgroundColor3 = Color3.fromRGB(133,133,133)
 		Button.TextColor3 = Color3.fromRGB(255,255,255)
@@ -147,7 +148,6 @@ function UI:CreateWindow(cfg)
 
 		local Layout = Instance.new("UIListLayout", Page)
 		Layout.Padding = UDim.new(0,6)
-		Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 		Layout.SortOrder = Enum.SortOrder.LayoutOrder
 
 		Button.MouseButton1Click:Connect(function()
@@ -160,6 +160,8 @@ function UI:CreateWindow(cfg)
 		function Tab:AddButton(cfg)
 			local btn = Instance.new("TextButton", Page)
 			btn.Size = UDim2.new(0,398,0,38)
+			btn.AnchorPoint = Vector2.new(0.5,0)
+			btn.Position = UDim2.new(0.5,0,0,0)
 			btn.Text = cfg.Name or "Button"
 			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -178,6 +180,8 @@ function UI:CreateWindow(cfg)
 		function Tab:AddLabel(cfg)
 			local lbl = Instance.new("TextLabel", Page)
 			lbl.Size = UDim2.new(0,398,0,34)
+			lbl.AnchorPoint = Vector2.new(0.5,0)
+			lbl.Position = UDim2.new(0.5,0,0,0)
 			lbl.Text = cfg.Text or "Label"
 			lbl.BackgroundTransparency = 1
 			lbl.TextColor3 = Color3.fromRGB(177,177,177)
@@ -189,6 +193,8 @@ function UI:CreateWindow(cfg)
 		function Tab:AddBox(cfg)
 			local box = Instance.new("TextBox", Page)
 			box.Size = UDim2.new(0,398,0,40)
+			box.AnchorPoint = Vector2.new(0.5,0)
+			box.Position = UDim2.new(0.5,0,0,0)
 			box.Text = ""
 			box.PlaceholderText = "Enter here..."
 			box.BackgroundColor3 = Color3.fromRGB(116,116,116)
