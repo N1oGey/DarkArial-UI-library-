@@ -55,7 +55,6 @@ function UI:CreateWindow(cfg)
 	Wind.Size = UDim2.new(0, 536, 0, 280)
 	Wind.Position = UDim2.new(0, 200, 0, 100)
 	Wind.BackgroundColor3 = Color3.fromRGB(35,35,35)
-	Wind.Visible = true
 	Wind.BorderSizePixel = 0
 	Instance.new("UICorner", Wind).CornerRadius = UDim.new(0,5)
 
@@ -90,12 +89,13 @@ function UI:CreateWindow(cfg)
 	TabsFrame.BackgroundColor3 = Color3.fromRGB(55,55,55)
 	TabsFrame.ScrollBarThickness = 0
 	TabsFrame.BorderSizePixel = 0
-	TabsFrame.CanvasSize = UDim2.new(0,0,0,0)
 	TabsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	TabsFrame.CanvasSize = UDim2.new(0,0,0,0)
 	Instance.new("UICorner", TabsFrame).CornerRadius = UDim.new(0,5)
 
 	local TabsLayout = Instance.new("UIListLayout", TabsFrame)
 	TabsLayout.Padding = UDim.new(0,6)
+	TabsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	TabsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 	local Open = Instance.new("TextButton", gui)
@@ -109,7 +109,6 @@ function UI:CreateWindow(cfg)
 	Instance.new("UICorner", Open).CornerRadius = UDim.new(0,5)
 
 	makeDraggable(Open)
-
 	Open.Visible = false
 
 	Close.MouseButton1Click:Connect(function()
@@ -141,13 +140,14 @@ function UI:CreateWindow(cfg)
 		Page.BackgroundColor3 = Color3.fromRGB(55,55,55)
 		Page.ScrollBarThickness = 0
 		Page.BorderSizePixel = 0
-		Page.CanvasSize = UDim2.new(0,0,0,0)
 		Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+		Page.CanvasSize = UDim2.new(0,0,0,0)
 		Page.Visible = false
 		Instance.new("UICorner", Page).CornerRadius = UDim.new(0,5)
 
 		local Layout = Instance.new("UIListLayout", Page)
 		Layout.Padding = UDim.new(0,6)
+		Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 		Layout.SortOrder = Enum.SortOrder.LayoutOrder
 
 		Button.MouseButton1Click:Connect(function()
@@ -159,7 +159,7 @@ function UI:CreateWindow(cfg)
 
 		function Tab:AddButton(cfg)
 			local btn = Instance.new("TextButton", Page)
-			btn.Size = UDim2.new(1,-12,0,38)
+			btn.Size = UDim2.new(0,398,0,38)
 			btn.Text = cfg.Name or "Button"
 			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -177,7 +177,7 @@ function UI:CreateWindow(cfg)
 
 		function Tab:AddLabel(cfg)
 			local lbl = Instance.new("TextLabel", Page)
-			lbl.Size = UDim2.new(1,-12,0,34)
+			lbl.Size = UDim2.new(0,398,0,34)
 			lbl.Text = cfg.Text or "Label"
 			lbl.BackgroundTransparency = 1
 			lbl.TextColor3 = Color3.fromRGB(177,177,177)
@@ -188,7 +188,7 @@ function UI:CreateWindow(cfg)
 
 		function Tab:AddBox(cfg)
 			local box = Instance.new("TextBox", Page)
-			box.Size = UDim2.new(1,-12,0,40)
+			box.Size = UDim2.new(0,398,0,40)
 			box.Text = ""
 			box.PlaceholderText = "Enter here..."
 			box.BackgroundColor3 = Color3.fromRGB(116,116,116)
