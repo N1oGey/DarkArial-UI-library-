@@ -105,14 +105,15 @@ function UI:CreateWindow(cfg)
 	TabsFrame.BorderSizePixel = 0
 	Instance.new("UICorner", TabsFrame).CornerRadius = UDim.new(0,5)
 
-	local Open = Instance.new("TextButton", gui)
+	-- OPEN BUTTON (FIXED IMAGE FULL FILL)
+	local Open = Instance.new("ImageButton", gui)
 	Open.Size = UDim2.new(0,52,0,42)
 	Open.Position = UDim2.new(0,32,0,16)
-	Open.Text = "P"
-	Open.BackgroundColor3 = Color3.fromRGB(55,55,55)
-	Open.TextColor3 = Color3.fromRGB(255,255,255)
-	Open.Font = Enum.Font.SourceSansBold
-	Open.TextSize = 24
+	Open.BackgroundTransparency = 1
+	Open.Image = cfg.Icon or ""
+
+	Open.ScaleType = Enum.ScaleType.Stretch -- FULL FILL FIX
+
 	Instance.new("UICorner", Open).CornerRadius = UDim.new(0,5)
 
 	makeDraggable(Open)
@@ -136,7 +137,7 @@ function UI:CreateWindow(cfg)
 		Button.Size = UDim2.new(0,90,0,36)
 		Button.Position = UDim2.new(0.5, -45, 0, index*42 + 6)
 		Button.Text = tabCfg.TabName or "Tab"
-		Button.BackgroundColor3 = Color3.fromRGB(133,133,133)
+		Button.BackgroundColor3 = Color3.fromRGB(208,0,0)
 		Button.TextColor3 = Color3.fromRGB(255,255,255)
 		Button.Font = Enum.Font.SourceSansBold
 		Button.TextSize = 18
@@ -168,12 +169,12 @@ function UI:CreateWindow(cfg)
 			btn.Size = UDim2.new(0,398,0,38)
 			btn.Position = UDim2.new(0.5, -199, 0, offsetY)
 			btn.Text = cfg.Name
-			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
+			btn.BackgroundColor3 = Color3.fromRGB(208,0,0)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
 			btn.Font = Enum.Font.SourceSansBold
 			btn.TextSize = 18
 			btn.BorderSizePixel = 0
-			Instance.new("UICorner", btn)
+			Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
 
 			offsetY += 44
 			updateCanvas(Page)
@@ -203,21 +204,19 @@ function UI:CreateWindow(cfg)
 			box.Size = UDim2.new(0,398,0,40)
 			box.Position = UDim2.new(0.5, -199, 0, offsetY)
 
-			box.BackgroundColor3 = Color3.fromRGB(116,116,116)
+			box.BackgroundColor3 = Color3.fromRGB(150,0,0)
 			box.TextColor3 = Color3.fromRGB(255,255,255)
 			box.Font = Enum.Font.SourceSansBold
 			box.TextSize = 18
 
+			box.Text = ""
+			box.PlaceholderText = "Enter here..."
+
 			box.TextWrapped = true
 			box.TextXAlignment = Enum.TextXAlignment.Left
 			box.TextYAlignment = Enum.TextYAlignment.Center
-			box.Text = ""
-			box.PlaceholderText = cfg.Name or "Enter here..."
 
 			box.BorderSizePixel = 0
-
-			local corner = Instance.new("UICorner", box)
-			corner.CornerRadius = UDim.new(0,5)
 
 			local pad2 = Instance.new("UIPadding", box)
 			pad2.PaddingLeft = UDim.new(0,6)
@@ -235,12 +234,12 @@ function UI:CreateWindow(cfg)
 			btn.Size = UDim2.new(0,398,0,38)
 			btn.Position = UDim2.new(0.5, -199, 0, offsetY)
 			btn.Text = cfg.Name .. " : OFF"
-			btn.BackgroundColor3 = Color3.fromRGB(133,133,133)
+			btn.BackgroundColor3 = Color3.fromRGB(208,0,0)
 			btn.TextColor3 = Color3.fromRGB(255,255,255)
 			btn.Font = Enum.Font.SourceSansBold
 			btn.TextSize = 18
 			btn.BorderSizePixel = 0
-			Instance.new("UICorner", btn)
+			Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
 
 			offsetY += 44
 			updateCanvas(Page)
@@ -278,7 +277,7 @@ function UI:CreateWindow(cfg)
 
 			local fill = Instance.new("Frame", bar)
 			fill.Size = UDim2.new(0,0,1,0)
-			fill.BackgroundColor3 = Color3.fromRGB(255,255,255)
+			fill.BackgroundColor3 = Color3.fromRGB(150,0,0)
 			Instance.new("UICorner", fill)
 
 			offsetY += 56
