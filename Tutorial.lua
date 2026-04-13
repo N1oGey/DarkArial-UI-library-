@@ -1,43 +1,62 @@
--- DarkArial UI v1.1 tutorial
-local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/N1oGey/DarkArial-UI-library-test-versions/refs/heads/main/DarkArial%20UI%20library%20test.lua"))() -- Load lib
+-- A simple tutorial
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/N1oGey/DarkArial-UI-library-/refs/heads/main/DarkArialUi%20library%20.lua"))() -- Load ui
 
-local Window = UI:CreateWindow({  -- Create window
-	Title = "DarkArial UI Test"
+-- Window Settig --
+
+local Window = UI:CreateWindow({ -- Add window
+	Title = "Test UI", -- Window title
+	Icon = "rbxassetid://11318961749" -- Window icon
 })
 
-local Tab = Window:AddTab({ -- Create Tab
-	TabName = "Main"
+-- Tab setting --
+
+local MainTab = Window:AddTab({ -- Add Tab
+	TabName = "Main" -- Tab name
 })
 
-Tab:AddLabel({             -- Create label
-	Text = "This is a label"
+-- Label setting --
+
+MainTab:AddLabel({ -- Add label 
+	Text = "Label example" -- Text in this label
 })
 
-Tab:AddButton({            -- Create button
-	Name = "Print Hello",
-	Callback = function()
-		print("Hello from button")
+-- Button Setting --
+
+MainTab:AddButton({ -- Add button
+	Name = "Button",  -- Button name
+	Callback = function() -- the code that this button will activate
+		print("clicked")
 	end
 })
 
-Tab:AddBox({                -- Create textbox
-	Name = "Enter text"
+-- TextBox setting --
+
+local box = MainTab:AddBox({ -- Add box 
+	Name = "TextBox"  -- TextBox Name
 })
 
-Tab:AddToggle({             -- Create toggle button
-	Name = "God Mode",
-	Callback = function(state)
-		print("Toggle:", state)
+box.FocusLost:Connect(function() -- Box function
+	print(box.Text)
+end)
+
+-- Toggle Setting --
+
+MainTab:AddToggle({ -- Add Toggle
+	Name = "Toggle", -- Toggle name
+	Callback = function(state) -- Function toggle
+		print("toggle:", state)
 	end
 })
 
-Tab:AddSlider({             -- Create slider
-	Name = "Speed",
-	Min = 0,
-	Max = 100,
-	Callback = function(value)
-		print("Slider:", value)
+-- Slider Setting --
+
+MainTab:AddSlider({ -- Add Setting
+	Name = "Slider", -- Name slider
+	Min = 0, -- minimal slider
+	Max = 100, -- maximum slider
+	Callback = function(v) -- function slider
+		print("value:", v)
 	end
 })
 
--- thats all! Lib created by Krystal Arial
+-- Thats all! Ui lib by Krystal Arial. Join to our team: https://t.me/arialteammodern
